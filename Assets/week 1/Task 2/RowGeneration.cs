@@ -17,13 +17,13 @@ public class RowGeneration : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log("count");
     }
     public void SpawnSquares()
     {
-             int count = int.Parse(squareNumberInput.text);
+        int count = int.Parse(squareNumberInput.text);
 
-            for (int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             Vector2 squareSequence = new Vector2(i * (squareLength + 2), 0);
 
@@ -44,4 +44,5 @@ public class RowGeneration : MonoBehaviour
             Debug.DrawLine(start, end, Color.white, 2);
         }
     }
+
 }
