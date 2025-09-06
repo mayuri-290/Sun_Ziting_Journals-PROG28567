@@ -2,44 +2,46 @@ using UnityEngine;
 
 public class SquareSpawner : MonoBehaviour
 {
-    bool mouseClick = false;
+    public Transform square;
+    public float squareLength = 1f;
+    public float scale = 0.5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
     }
-
     // Update is called once per frame
     void Update()
     {
+        squareLength += Input.mouseScrollDelta.y * scale;
+        square.localScale = new Vector2(squareLength *2, squareLength *2);
+
+        Vector2 mousePosition = Input.mousePosition;
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector2(mousePosition.x, mousePosition.y);
+
         if (Input.GetMouseButtonDown(0))
         {
-            mouseClick = true;
-
-             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             {
-                Vector2 start = new Vector2(0f, 1f)+mouse;
-                Vector2 end = new Vector2(0f, 0f)+mouse;      
+                Vector2 start = new Vector2(-squareLength, squareLength) + mousePosition;
+                Vector2 end = new Vector2(-squareLength, -squareLength) + mousePosition;
+                Debug.DrawLine(start, end, Color.white, 2);
 
-                Debug.DrawLine(start, end, Color.white);
+                start = new Vector2(-squareLength, -squareLength) + mousePosition;
+                end = new Vector2(squareLength, -squareLength) + mousePosition;
+                Debug.DrawLine(start, end, Color.white, 2);
 
-                start = new Vector2(0f, 0f)+mouse;
-                end = new Vector2(1f, 0f)+mouse;            
+                start = new Vector2(squareLength, -squareLength) + mousePosition;
+                end = new Vector2(squareLength, squareLength) + mousePosition;
+                Debug.DrawLine(start, end, Color.white, 2);
 
-                Debug.DrawLine(start, end, Color.white);
-
-                start = new Vector2(1f, 0f)+mouse;
-                end = new Vector2(1f, 1f)+mouse;
-
-                Debug.DrawLine(start, end, Color.white);
-
-                start = new Vector2(1f, 1f)+mouse;
-                end = new Vector2(0f, 1f)+mouse;
-
-                Debug.DrawLine(start, end, Color.white);
+                start = new Vector2(squareLength, squareLength) + mousePosition;
+                end = new Vector2(-squareLength, squareLength) + mousePosition;
+                Debug.DrawLine(start, end, Color.white, 2);
             }
         }
-    }
+
+        }
+    
 
 
 }
