@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float bombTrailSpacing;
     public int numberOfTrailBombs;
 
+     float ratio = 1f;//set ratio to 1, it will not exceed 1. 
     // List<int> randomPosition = new List<int>();
 
 
@@ -31,10 +32,26 @@ public class Player : MonoBehaviour
         {
             SpawnBombTrail(bombTrailSpacing, numberOfTrailBombs);//activate the function here.
         }
-        
-         if (Input.GetKeyDown(KeyCode.M))//press M to spawn a series of bomb.
+
+        if (Input.GetKeyDown(KeyCode.M))//press M to spawn a series of bomb.
         {
             SpawnBombOnRandomCorner(2f);//activate the function here.
+        }
+
+        float speed = 0.5f;
+
+        Vector2 targetPosition = enemyTransform.position;
+        Vector2 startPosition = transform.position;
+        Vector2 directionToMove = targetPosition - startPosition;
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            transform.position += (Vector3)directionToMove.normalized * speed;
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))//click s to move the player. 
+        {
+            WarpPlayer(enemyTransform, 0.5f);
         }
     }
 
@@ -61,10 +78,10 @@ public class Player : MonoBehaviour
     {
 
         int randomPosition = Random.Range(0, 4);//randomly generate a number from 0 to 4.
-        Vector3 spawnPosition = transform.position;
+        Vector3 spawnPosition = transform.position;//get the player's position.
         //List<int> randomPosition = new List<int> { 1, 2, 3, 4 };
 
-        if (randomPosition == 0)
+        if (randomPosition == 0)//if the chosen random number is 
         {
             Vector3 offset = Vector3.up + Vector3.left;
             spawnPosition = spawnPosition + offset * inDistance;
@@ -85,8 +102,17 @@ public class Player : MonoBehaviour
             spawnPosition = spawnPosition + offset * inDistance;
         }
         Instantiate(bombPrefab, spawnPosition, Quaternion.identity);
-
-
         //randomPosition.Count = Random.Range(0, randomPosition.Count);
+    }
+
+    public void WarpPlayer(Transform target, float ratio)
+    {
+
+        Vector3 startPosition = transform.position;//player's current position
+        Vector3 targetPosition = target.position;//enemies position, so the player will move towards it.
+
+        Vector3 newPosition = Vector3.Lerp(startPosition, targetPosition, ratio);//use lerp to calculate a start and end position for the player.
+        transform.position = newPosition;//activate the movement of player. 
+        
     }
 }
