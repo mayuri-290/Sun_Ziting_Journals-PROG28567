@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public float bombTrailSpacing;
     public int numberOfTrailBombs;
 
-     float ratio = 1f;//set ratio to 1, it will not exceed 1. 
+    public float ratio;//set ratio to 1, it will not exceed 1. 
     // List<int> randomPosition = new List<int>();
 
 
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S))//click s to move the player. 
         {
-            WarpPlayer(enemyTransform, 0.5f);
+            WarpPlayer(enemyTransform, ratio);
         }
     }
 
@@ -108,11 +108,16 @@ public class Player : MonoBehaviour
     public void WarpPlayer(Transform target, float ratio)
     {
 
-        Vector3 startPosition = transform.position;//player's current position
-        Vector3 targetPosition = target.position;//enemies position, so the player will move towards it.
+       // Vector3 startPosition = transform.position;//player's current position
+       // Vector3 targetPosition = target.position;//enemies position, so the player will move towards it.
 
-        Vector3 newPosition = Vector3.Lerp(startPosition, targetPosition, ratio);//use lerp to calculate a start and end position for the player.
+        Vector3 newPosition = Vector3.Lerp(transform.position, target.position, ratio);//use lerp to calculate a start and end position for the player.
         transform.position = newPosition;//activate the movement of player. 
-        
+
+    }
+
+    public void DetectAsteroids(float inMaxRange, List<Transform> inAsteroids)
+    {
+
     }
 }
