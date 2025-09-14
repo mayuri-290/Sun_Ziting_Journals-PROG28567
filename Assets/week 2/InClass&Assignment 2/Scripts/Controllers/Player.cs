@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -52,6 +53,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))//click s to move the player. 
         {
             WarpPlayer(enemyTransform, ratio);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            DetectAsteroids(2.5f, asteroidTransforms);
         }
     }
 
@@ -118,6 +124,14 @@ public class Player : MonoBehaviour
 
     public void DetectAsteroids(float inMaxRange, List<Transform> inAsteroids)
     {
-
+        foreach (Transform asteroid in inAsteroids)
+        {
+            float playerDistance = Vector3.Distance(transform.position, asteroid.position);
+            if (playerDistance <= inMaxRange)
+            {
+                Vector3 direction = (asteroid.position - transform.position).normalized;
+                Debug.DrawLine(transform.position, transform.position + direction * 2.5f, Color.green,2f);
+            }
+        }
     }
 }
