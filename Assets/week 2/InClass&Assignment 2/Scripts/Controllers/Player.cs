@@ -69,48 +69,24 @@ public class Player : MonoBehaviour
         Vector2 startPosition = transform.position;
         Vector2 directionToMove = targetPosition - startPosition;
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             transform.position += (Vector3)directionToMove.normalized * speed;
         }
 
-        if (Input.GetKeyDown(KeyCode.S))//click s to move the player. 
+        if (Input.GetKeyDown(KeyCode.R))//click R to move the player. 
         {
             WarpPlayer(enemyTransform, ratio);
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.L))
         {
             DetectAsteroids(2.5f, asteroidTransforms);
         }
 
         PlayerMovement();
 
-        //--------------------------------------------------------------------------------------------------//
 
-        Vector2 direction = Vector2.zero;
-        if(Input.GetKey(KeyCode.RightArrow))
-        {
-            direction+=Vector2.right;
-        }
-        if(Input.GetKey(KeyCode.UpArrow))
-        {
-            direction+=Vector2.up;
-        }
-        direction=direction.normalized;
-        velocity += (Vector3)direction * acceleration*Time.deltaTime;
-
-        //when I press the right key:
-            //increase the direction to the right by the acceleration.
-
-        //when I press the up key:
-             //increase the direction to the up by the acceleration.
-
-        //move the object usig some kind of acceleration logic,
-        //The ONLY spot we change the position of the transform.
-
-        //somewhere in your code, you will need to subtract the acceleration.
-             //when you stop pressing input.
     }
 
 
@@ -191,22 +167,55 @@ public class Player : MonoBehaviour
 
     public void PlayerMovement()
     {
-        Vector2 Position = transform.position;
-        Position.x+=Input.GetAxisRaw("Horizontal")*speed*Time.deltaTime;
-        Position.y+=Input.GetAxisRaw("Vertical")*speed*Time.deltaTime;
-        transform.position=Position;
 
-        if(speed>0)
+        Vector2 direction = Vector2.zero;
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-          speed+=acceleration*Time.deltaTime;   
-          speed = Mathf.Min(speed, maxSpeed);
-
+            direction += Vector2.right;
         }
-        else
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            speed=0;
+            direction += Vector2.up;
         }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            direction += Vector2.left;
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            direction += Vector2.down;
+        }
+        direction = direction.normalized;
+        velocity += (Vector3)direction * acceleration * Time.deltaTime;
+        transform.position += velocity * Time.deltaTime;
 
-        transform.position = Position;
+        //when I press the right key:
+        //increase the direction to the right by the acceleration.
+
+        //when I press the up key:
+        //increase the direction to the up by the acceleration.
+
+        //move the object usig some kind of acceleration logic,
+        //The ONLY spot we change the position of the transform.
+
+        //somewhere in your code, you will need to subtract the acceleration.
+        //when you stop pressing input.
+        // Vector2 Position = transform.position;
+        // Position.x+=Input.GetAxisRaw("Horizontal")*speed*Time.deltaTime;
+        // Position.y+=Input.GetAxisRaw("Vertical")*speed*Time.deltaTime;
+        // transform.position=Position;
+
+        // if(speed>0)
+        // {
+        //   speed+=acceleration*Time.deltaTime;   
+        //   speed = Mathf.Min(speed, maxSpeed);
+
+        // }
+        // else
+        // {
+        //     speed=0;
+        // }
+
+        // transform.position = Position;
     }
 }
