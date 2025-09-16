@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,10 +17,33 @@ public class Player : MonoBehaviour
     public float ratio;//set ratio to 1, it will not exceed 1. 
     // List<int> randomPosition = new List<int>();
 
+    public Vector3 velocity = new Vector3(0.5f, 0, 0);
+    public float distaceToChange = 3f;
+    public float duration = 1f;
+
+    private float speed = 5f;
+
+    public float maxSpeed;
+    public float accelerationTime;
+
+    private float acceleration;
+    private float time = 0f;
+
+
+
+    private void Start()
+    {
+        acceleration = maxSpeed / accelerationTime;
+    }
 
 
     void Update()
     {
+
+        velocity += Vector3.right * Time.deltaTime;
+        transform.position += distaceToChange*Vector3.right * Time.deltaTime;
+
+
 
         if (Input.GetKeyDown(KeyCode.B)) //press B to spawn the bomb.
         {
@@ -59,7 +83,39 @@ public class Player : MonoBehaviour
         {
             DetectAsteroids(2.5f, asteroidTransforms);
         }
+
+        PlayerMovement();
+
+        //--------------------------------------------------------------------------------------------------//
+
+        Vector2 direction = Vector2.zero;
+        if(Input.GetKey(KeyCode.RightArrow))
+        {
+            direction+=Vector2.right;
+        }
+        if(Input.GetKey(KeyCode.UpArrow))
+        {
+            direction+=Vector2.up;
+        }
+        direction=direction.normalized;
+        velocity += (Vector3)direction * acceleration*Time.deltaTime;
+
+        //when I press the right key:
+            //increase the direction to the right by the acceleration.
+
+        //when I press the up key:
+             //increase the direction to the up by the acceleration.
+
+        //move the object usig some kind of acceleration logic,
+        //The ONLY spot we change the position of the transform.
+
+        //somewhere in your code, you will need to subtract the acceleration.
+             //when you stop pressing input.
     }
+
+
+
+
 
     public void SpawnBombAtOffset(Vector2 inOffSet)
     {
@@ -75,9 +131,7 @@ public class Player : MonoBehaviour
         {
             Vector2 spawnPosition = (Vector2)transform.position + new Vector2(0, -i * bombTrailSpacing - 1);//find the correct position to spawn bombs in Y axis. 
             Instantiate(bombPrefab, spawnPosition, Quaternion.identity);
-
         }
-
     }
 
     public void SpawnBombOnRandomCorner(float inDistance)
@@ -133,5 +187,26 @@ public class Player : MonoBehaviour
                 Debug.DrawLine(transform.position, transform.position + direction * 2.5f, Color.green,2f);
             }
         }
+    }
+
+    public void PlayerMovement()
+    {
+        Vector2 Position = transform.position;
+        Position.x+=Input.GetAxisRaw("Horizontal")*speed*Time.deltaTime;
+        Position.y+=Input.GetAxisRaw("Vertical")*speed*Time.deltaTime;
+        transform.position=Position;
+
+        if(speed>0)
+        {
+          speed+=acceleration*Time.deltaTime;   
+          speed = Mathf.Min(speed, maxSpeed);
+
+        }
+        else
+        {
+            speed=0;
+        }
+
+        transform.position = Position;
     }
 }
