@@ -138,7 +138,7 @@ public class Player : MonoBehaviour
             if (playerDistance <= inMaxRange)
             {
                 Vector3 direction = (asteroid.position - transform.position).normalized;
-                Debug.DrawLine(transform.position, transform.position + direction * 2.5f, Color.green,2f);
+                Debug.DrawLine(transform.position, transform.position + direction * 2.5f, Color.green, 2f);
             }
         }
     }
@@ -199,4 +199,5 @@ public class Player : MonoBehaviour
 
         //somewhere in your code, you will need to subtract the acceleration.
     }
+
 }
