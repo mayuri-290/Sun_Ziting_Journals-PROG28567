@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     public int numberOfTrailBombs;
 
     public float ratio;//set ratio to 1, it will not exceed 1. 
-    // List<int> randomPosition = new List<int>();
 
     public Vector3 velocity = new Vector3(0.5f, 0, 0);
     public float distaceToChange = 3f;
@@ -25,26 +24,23 @@ public class Player : MonoBehaviour
 
     public float maxSpeed;
     public float accelerationTime;
-
     private float acceleration;
     private float time = 0f;
+
+    public float decelerationTime;
+    public float deceleration;
 
 
 
     private void Start()
     {
         acceleration = maxSpeed / accelerationTime;
+        deceleration = maxSpeed / decelerationTime;
     }
 
 
     void Update()
     {
-
-        velocity += Vector3.right * Time.deltaTime;
-        transform.position += distaceToChange*Vector3.right * Time.deltaTime;
-
-
-
         if (Input.GetKeyDown(KeyCode.B)) //press B to spawn the bomb.
         {
             // SpawnBombAtOffset(new Vector3 (0,1));
@@ -52,12 +48,10 @@ public class Player : MonoBehaviour
             Vector2 offset = new Vector2(3f, 1f); //create an new offset.
             SpawnBombAtOffset(offset);
         }
-
         if (Input.GetKeyDown(KeyCode.T))//press T to spawn a series of bomb.
         {
             SpawnBombTrail(bombTrailSpacing, numberOfTrailBombs);//activate the function here.
         }
-
         if (Input.GetKeyDown(KeyCode.M))//press M to spawn a series of bomb.
         {
             SpawnBombOnRandomCorner(2f);//activate the function here.
@@ -85,18 +79,10 @@ public class Player : MonoBehaviour
         }
 
         PlayerMovement();
-
-
     }
-
-
-
-
 
     public void SpawnBombAtOffset(Vector2 inOffSet)
     {
-        //Instantiate(bombPrefab, inOffSet, Quaternion.identity);
-
         Vector2 spawnPosition = (Vector2)transform.position + inOffSet;
         Instantiate(bombPrefab, spawnPosition, Quaternion.identity);
     }
@@ -112,12 +98,10 @@ public class Player : MonoBehaviour
 
     public void SpawnBombOnRandomCorner(float inDistance)
     {
-
         int randomPosition = Random.Range(0, 4);//randomly generate a number from 0 to 4.
         Vector3 spawnPosition = transform.position;//get the player's position.
-        //List<int> randomPosition = new List<int> { 1, 2, 3, 4 };
 
-        if (randomPosition == 0)//if the chosen random number is 
+        if (randomPosition == 0)
         {
             Vector3 offset = Vector3.up + Vector3.left;
             spawnPosition = spawnPosition + offset * inDistance;
@@ -138,18 +122,12 @@ public class Player : MonoBehaviour
             spawnPosition = spawnPosition + offset * inDistance;
         }
         Instantiate(bombPrefab, spawnPosition, Quaternion.identity);
-        //randomPosition.Count = Random.Range(0, randomPosition.Count);
     }
 
     public void WarpPlayer(Transform target, float ratio)
     {
-
-       // Vector3 startPosition = transform.position;//player's current position
-       // Vector3 targetPosition = target.position;//enemies position, so the player will move towards it.
-
         Vector3 newPosition = Vector3.Lerp(transform.position, target.position, ratio);//use lerp to calculate a start and end position for the player.
         transform.position = newPosition;//activate the movement of player. 
-
     }
 
     public void DetectAsteroids(float inMaxRange, List<Transform> inAsteroids)
@@ -167,6 +145,11 @@ public class Player : MonoBehaviour
 
     public void PlayerMovement()
     {
+        // when you stop pressing input.
+        // Vector2 Position = transform.position;
+        // Position.x+=Input.GetAxisRaw("Horizontal")*speed*Time.deltaTime;
+        // Position.y+=Input.GetAxisRaw("Vertical")*speed*Time.deltaTime;
+        // transform.position=Position;
 
         Vector2 direction = Vector2.zero;
         if (Input.GetKey(KeyCode.RightArrow))
@@ -186,7 +169,23 @@ public class Player : MonoBehaviour
             direction += Vector2.down;
         }
         direction = direction.normalized;
-        velocity += (Vector3)direction * acceleration * Time.deltaTime;
+
+        if (direction.magnitude > 0f)
+        {
+            velocity += (Vector3)direction * acceleration * Time.deltaTime;
+
+            if (velocity.magnitude > maxSpeed)
+            {
+                velocity = velocity.normalized * maxSpeed;
+            }
+        }
+        else
+        {
+            if (velocity.magnitude > 0f)
+            {
+                velocity -= velocity.normalized * deceleration * Time.deltaTime;
+            }
+        }
         transform.position += velocity * Time.deltaTime;
 
         //when I press the right key:
@@ -199,23 +198,5 @@ public class Player : MonoBehaviour
         //The ONLY spot we change the position of the transform.
 
         //somewhere in your code, you will need to subtract the acceleration.
-        //when you stop pressing input.
-        // Vector2 Position = transform.position;
-        // Position.x+=Input.GetAxisRaw("Horizontal")*speed*Time.deltaTime;
-        // Position.y+=Input.GetAxisRaw("Vertical")*speed*Time.deltaTime;
-        // transform.position=Position;
-
-        // if(speed>0)
-        // {
-        //   speed+=acceleration*Time.deltaTime;   
-        //   speed = Mathf.Min(speed, maxSpeed);
-
-        // }
-        // else
-        // {
-        //     speed=0;
-        // }
-
-        // transform.position = Position;
     }
 }
