@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
 
     public float decelerationTime;
     public float deceleration;
+    private Vector3 prevPoint;
 
 
 
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour
         }
 
         PlayerMovement();
+        EnemyRadar(3f, 20f);
     }
 
     public void SpawnBombAtOffset(Vector2 inOffSet)
@@ -194,14 +196,23 @@ public class Player : MonoBehaviour
         //somewhere in your code, you will need to subtract the acceleration.
     }
 
-    public void drawRadar(float radius,int numberOfPoints)
+    public void EnemyRadar(float radius, float circlePoints)
     {
-        // float angle 
-        // for (int i = 0; i < numberOfPoints; i++)
-        // {
-        //     float x = Mathf.Cos(angle) * radius
-        // }
+        for (int i = 0; i < circlePoints; i++)
+        {
+            float angle = i / circlePoints * 360f;
+            float radians = angle * Mathf.Deg2Rad;
 
+            float x = Mathf.Cos(radians)*radius;
+            float y = Mathf.Sin(radians)*radius;
+
+            Vector3 pointOnCircle = transform.position+new Vector3(x, y, 0f);
+
+            if (i > 0)
+            {
+                Debug.DrawLine(prevPoint, pointOnCircle, Color.green);
+                prevPoint = pointOnCircle;
+            }
+        }
     }
-
 }

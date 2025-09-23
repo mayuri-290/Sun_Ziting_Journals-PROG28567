@@ -22,6 +22,9 @@ public class TrigExperiments : MonoBehaviour
         float x = Mathf.Cos(angleInRadians);
         float y = Mathf.Sin(angleInRadians);
 
+        float convertedAngle = Mathf.Rad2Deg * Mathf.Atan2(y, x);
+        Debug.Log("StartingAngle["+angleInDegrees.ToString()+"]" + "ConvertedAngle["+convertedAngle.ToString()+"]");
+
         Vector3 pointOnCircle = new Vector3(x, y, 0) * radius + circlePosition;
 
         Debug.DrawLine(circlePosition, pointOnCircle, Color.red);
@@ -30,7 +33,7 @@ public class TrigExperiments : MonoBehaviour
         {
             currentAngleIndex++;
 
-            if(currentAngleIndex >= angles.Count)
+            if (currentAngleIndex >= angles.Count)
             {
                 currentAngleIndex = 0;
             }
