@@ -194,4 +194,14 @@ public class Player : MonoBehaviour
         //somewhere in your code, you will need to subtract the acceleration.
     }
 
+    public void drawRadar(float radius,int numberOfPoints)
+    {
+        // float angle 
+        // for (int i = 0; i < numberOfPoints; i++)
+        // {
+        //     float x = Mathf.Cos(angle) * radius
+        // }
+
+    }
+
 }
