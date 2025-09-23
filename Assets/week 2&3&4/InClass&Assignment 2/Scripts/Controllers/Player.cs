@@ -20,12 +20,12 @@ public class Player : MonoBehaviour
     public float distaceToChange = 3f;
     public float duration = 1f;
 
-    private float speed = 5f;
+    //private float speed = 5f;
 
     public float maxSpeed;
     public float accelerationTime;
     private float acceleration;
-    private float time = 0f;
+    //private float time = 0f;
 
     public float decelerationTime;
     public float deceleration;
