@@ -145,12 +145,6 @@ public class Player : MonoBehaviour
 
     public void PlayerMovement()
     {
-        // when you stop pressing input.
-        // Vector2 Position = transform.position;
-        // Position.x+=Input.GetAxisRaw("Horizontal")*speed*Time.deltaTime;
-        // Position.y+=Input.GetAxisRaw("Vertical")*speed*Time.deltaTime;
-        // transform.position=Position;
-
         Vector2 direction = Vector2.zero;
         if (Input.GetKey(KeyCode.RightArrow))
         {
