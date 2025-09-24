@@ -30,6 +30,12 @@ public class Player : MonoBehaviour
     public float decelerationTime;
     public float deceleration;
     private Vector3 prevPoint;
+    Color color;
+
+    public GameObject powerupPrefab;
+    public float lifeTime = 2f;
+
+
 
 
 
@@ -37,6 +43,8 @@ public class Player : MonoBehaviour
     {
         acceleration = maxSpeed / accelerationTime;
         deceleration = maxSpeed / decelerationTime;
+        SpawnPowerups(3f, 5);
+
     }
 
 
@@ -198,21 +206,50 @@ public class Player : MonoBehaviour
 
     public void EnemyRadar(float radius, float circlePoints)
     {
+        bool enemyPos = Vector3.Distance(transform.position, enemyTransform.position) <= radius;
+
+        if (enemyPos)
+        {
+            color = Color.red;
+        }
+        else
+        {
+            color = Color.green;
+        }
+
         for (int i = 0; i < circlePoints; i++)
         {
             float angle = i / circlePoints * 360f;
             float radians = angle * Mathf.Deg2Rad;
 
-            float x = Mathf.Cos(radians)*radius;
-            float y = Mathf.Sin(radians)*radius;
+            float x = Mathf.Cos(radians) * radius;
+            float y = Mathf.Sin(radians) * radius;
 
-            Vector3 pointOnCircle = transform.position+new Vector3(x, y, 0f);
+            Vector3 pointOnCircle = transform.position + new Vector3(x, y, 0f);
 
             if (i > 0)
             {
-                Debug.DrawLine(prevPoint, pointOnCircle, Color.green);
+                Debug.DrawLine(prevPoint, pointOnCircle, color);
                 prevPoint = pointOnCircle;
+
             }
+        }
+    }
+
+    public void SpawnPowerups(float radius, int numberOfPowerups)
+    {
+        float angleOfSpawn = 360f / numberOfPowerups;
+        for (int i = 0; i < numberOfPowerups; i++)
+        {
+            float angle = i * angleOfSpawn;
+            float radians = angle * Mathf.Deg2Rad;
+
+            float x = Mathf.Cos(radians) * radius;
+            float y = Mathf.Sin(radians) * radius;
+
+            Vector3 spawnPosition = transform.position + new Vector3(x, y, 0f);
+
+            Instantiate(powerupPrefab, spawnPosition, Quaternion.identity);
         }
     }
 }
