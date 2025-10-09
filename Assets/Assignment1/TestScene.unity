@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 900491620}
-  angularSpeed: 5
+  angularSpeed: 10
 --- !u!212 &1213966851
 SpriteRenderer:
   m_ObjectHideFlags: 0

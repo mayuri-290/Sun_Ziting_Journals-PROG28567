@@ -16,9 +16,14 @@ public class Enemy : MonoBehaviour
     {
         EnemyMovement();
 
+        Debug.DrawLine(transform.position, transform.position + transform.up, Color.green);
+
         transform.Rotate(0f, 0f, angularSpeed * Time.deltaTime);
 
         Vector3 directionToTarget = playerTransform.position - transform.position;
+        Debug.Log("Dot product: " + Vector3.Dot(transform.right, directionToTarget).ToString());
+
+
         float dotProduct = Vector3.Dot(transform.right, directionToTarget);
 
         float currentAngle = Mathf.Rad2Deg * Mathf.Atan2(transform.up.y, transform.up.x);
