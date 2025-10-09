@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         EnemyMovement();
+        SpawnSpaceGarbage();
 
         Debug.DrawLine(transform.position, transform.position + transform.up, Color.green);
 
@@ -64,6 +65,11 @@ public class Enemy : MonoBehaviour
     {
         Vector3 enemyDirection = (playerTransform.position - transform.position).normalized;
         transform.position += enemyDirection * speed * Time.deltaTime;
+
+    }
+
+    public void SpawnSpaceGarbage()
+    {
 
     }
 }
