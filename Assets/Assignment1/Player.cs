@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 5f;
+    public float speed = 6f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         Vector2 playerPos = transform.position;
-        playerPos.x += Input.GetAxis("Horizontal") * speed * Time.deltaTime;
         playerPos.y += Input.GetAxis("Vertical") * speed * Time.deltaTime;
         transform.position = playerPos;   }
 }
