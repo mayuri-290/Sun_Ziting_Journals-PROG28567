@@ -344,6 +344,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 900491620}
   angularSpeed: 90
+  shootSpeed: 3
+  bulletPrefab: {fileID: 7893074869107629352, guid: c60f3d425dacf46ff8f91b843694550d, type: 3}
+  shootInterval: 1
+  time: 0
 --- !u!212 &1213966851
 SpriteRenderer:
   m_ObjectHideFlags: 0
