@@ -101,4 +101,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  lifeTime: 8
+  lifeTime: 5
+  rotationSpeed: 180

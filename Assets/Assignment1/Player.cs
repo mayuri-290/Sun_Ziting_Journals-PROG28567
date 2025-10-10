@@ -14,5 +14,16 @@ public class Player : MonoBehaviour
     {
         Vector2 playerPos = transform.position;
         playerPos.y += Input.GetAxis("Vertical") * speed * Time.deltaTime;
-        transform.position = playerPos;   }
-}
+        transform.position = playerPos;
+
+        if(playerPos.y > 4.5f)
+        {
+            playerPos.y = 4.5f;
+        }
+        if (playerPos.y < -4.5f)
+        {
+            playerPos.y = -4.5f;
+        }
+         transform.position = playerPos; 
+    }
+ }
