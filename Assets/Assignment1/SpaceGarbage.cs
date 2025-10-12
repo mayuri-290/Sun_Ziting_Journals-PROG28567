@@ -6,6 +6,7 @@ public class SpaceGarbage : MonoBehaviour
     public float maxspeed = 4f;
     private float speed;
     public float rotationSpeed;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
